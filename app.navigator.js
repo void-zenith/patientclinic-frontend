@@ -1,10 +1,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import { Text } from "react-native";
 import SplashScreen from "./views/container/SplashScreen";
 import Login from "./views/container/Login";
 import HomeScreen from "./views/container/HomeScreen";
+import AddPatient from "./views/container/AddPatient";
 const AppNavigator = () => {
   const Stack = createStackNavigator();
 
@@ -30,6 +31,13 @@ const AppNavigator = () => {
           component={HomeScreen}
           options={{
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Add Patient"
+          component={AddPatient}
+          options={{
+            headerTitle: () => <Text>Add Patient</Text>,
           }}
         />
       </Stack.Navigator>

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   primaryHead: {
     marginBottom: 40,
-    fontSize: "40px",
+    fontSize: 40,
   },
   usernameInputContainer: {
     marginBottom: 20,

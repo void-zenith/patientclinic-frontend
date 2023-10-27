@@ -7,7 +7,10 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ButtonComponent from "../components/ButtonComponent";
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
+  const NavigateToAddPatient = () => {
+    navigation.navigate("Add Patient");
+  };
   return (
     <SafeAreaView>
       <View style={styles.homeContainer}>
@@ -32,6 +35,7 @@ const HomeScreen = () => {
           <ButtonComponent
             color="primary"
             label="Add Patient"
+            onPressHandler={NavigateToAddPatient}
           ></ButtonComponent>
         </View>
         <View>
