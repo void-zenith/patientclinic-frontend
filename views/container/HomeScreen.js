@@ -18,20 +18,7 @@ const HomeScreen = ({ navigation }) => {
   const NavigateToAddPatient = () => {
     navigation.navigate("Add Patient");
   };
-  const mockData = [
-    {
-      name: "zenith",
-      isCritical: true,
-    },
-    {
-      name: "zenith3",
-      isCritical: true,
-    },
-    {
-      name: "zenith4",
-      isCritical: false,
-    },
-  ];
+
   useEffect(() => {
     getPatientData();
   }, []);
@@ -114,7 +101,11 @@ const HomeScreen = ({ navigation }) => {
             <Text style={{ marginBottom: 10, fontSize: 16 }}>
               There are no critical patients yet.
             </Text>
-            <ButtonComponent label="View All" color="primary"></ButtonComponent>
+            <ButtonComponent
+              label="View All"
+              color="primary"
+              onPressHandler={navigateToAllPatient}
+            ></ButtonComponent>
           </View>
           <View>
             <Text style={styles.secondHeadLine}>List of All Patients</Text>
@@ -132,7 +123,11 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               )}
             </View>
-            <ButtonComponent label="View All" color="primary"></ButtonComponent>
+            <ButtonComponent
+              label="View All"
+              color="primary"
+              onPressHandler={navigateToAllPatient}
+            ></ButtonComponent>
           </View>
         </View>
       </ScrollView>
