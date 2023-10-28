@@ -21,9 +21,10 @@ const SplashScreen = ({ navigation }) => {
               onPressHandler={() => navigation.navigate("Login")}
             />
             <ButtonComponent
-              label="Create Account"
+              label="Sign In as Admin"
               color="secondary"
               size="w_80"
+              onPressHandler={() => navigation.navigate("Login Admin")}
             />
           </View>
         </View>
