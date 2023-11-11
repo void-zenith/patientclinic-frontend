@@ -13,7 +13,8 @@ import Logout from "react-native-vector-icons/MaterialIcons";
 import ButtonComponent from "../components/ButtonComponent";
 import ListPatient from "../components/ListPatient";
 const HomeScreen = ({ navigation }) => {
-  const [allPatient, setAllPatient] = useState([]);
+  const [normalPatient, setNormalPatient] = useState([]);
+  const [criticalPatient, setCriticalPatient] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const NavigateToAddPatient = () => {
     navigation.navigate("Add Patient");
@@ -21,18 +22,32 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     getPatientData();
+    getCriticalPatient();
   }, []);
   const getPatientData = () => {
-    fetch("http://127.0.0.1:3000/patient", {
+    fetch("http://127.0.0.1:3000/home-data", {
       method: "GET",
     })
       .then((response) => response.json())
-      .then((json) => setAllPatient(json))
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
+
+  const getCriticalPatient = () => {
+    fetch("http://127.0.0.1:3000/critical-patient", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((json) => setCriticalPatient(json))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   };
   const reload = () => {
     getPatientData();
+    getCriticalPatient();
   };
   const logout = () => {
     navigation.navigate("Back");
@@ -58,7 +73,9 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.summaryContainer}>
             <View style={styles.eachSummary}>
               <Text>Total Patient</Text>
-              <Text style={styles.summaryValue}>{allPatient.length}</Text>
+              <Text style={styles.summaryValue}>
+                {normalPatient.length + criticalPatient.length}
+              </Text>
               <TouchableOpacity
                 style={styles.summaryBtn}
                 onPress={navigateToAllPatient}
@@ -68,7 +85,7 @@ const HomeScreen = ({ navigation }) => {
             </View>
             <View style={styles.eachSummary}>
               <Text>Total Critical Patient</Text>
-              <Text style={styles.summaryValue}>0</Text>
+              <Text style={styles.summaryValue}>{criticalPatient.length}</Text>
               <TouchableOpacity
                 style={styles.summaryBtn}
                 onPress={navigateToAllPatient}
@@ -86,20 +103,21 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <View>
             <Text style={styles.secondHeadLine}>List of Critical Patients</Text>
-            {/* {isLoading ? (
+            {isLoading ? (
               <ActivityIndicator></ActivityIndicator>
             ) : (
               <View style={styles.listContainer}>
-                {allPatient.map((item) => (
+                {criticalPatient.map((item) => (
                   <ListPatient
                     data={item}
                     navigation={navigation}
                   ></ListPatient>
                 ))}
               </View>
-            )} */}
+            )}
             <Text style={{ marginBottom: 10, fontSize: 16 }}>
-              There are no critical patients yet.
+              {criticalPatient.length === 0 &&
+                "There are no critical patients yet."}
             </Text>
             <ButtonComponent
               label="View All"
@@ -114,7 +132,7 @@ const HomeScreen = ({ navigation }) => {
                 <ActivityIndicator></ActivityIndicator>
               ) : (
                 <View style={styles.listContainer}>
-                  {allPatient.map((item, id) => (
+                  {normalPatient.map((item, id) => (
                     <ListPatient
                       key={id}
                       data={item}
