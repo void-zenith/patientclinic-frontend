@@ -114,8 +114,9 @@ const HomeScreen = ({ navigation }) => {
                 <ActivityIndicator></ActivityIndicator>
               ) : (
                 <View style={styles.listContainer}>
-                  {allPatient.map((item) => (
+                  {allPatient.map((item, id) => (
                     <ListPatient
+                      key={id}
                       data={item}
                       navigation={navigation}
                     ></ListPatient>

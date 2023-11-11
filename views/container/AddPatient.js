@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import ButtonComponent from "../components/ButtonComponent";
+import Toast from "react-native-toast-message";
 const AddPatient = ({ navigation }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
 
   const clearBtn = () => {
     setFirstName("");
     setLastName("");
     setEmail("");
     setAddress("");
+    setPhone("");
   };
   const addBtn = () => {
     fetch("http://127.0.0.1:3000/patient", {
@@ -21,10 +24,11 @@ const AddPatient = ({ navigation }) => {
         lastName: lastName,
         email: email,
         address: address,
+        phone: phone,
       }),
     })
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           navigation.navigate("Home");
         }
       })
@@ -66,6 +70,15 @@ const AddPatient = ({ navigation }) => {
           style={style.inputContainer}
           onChangeText={(text) => setAddress(text)}
           placeholder="Address:"
+        ></TextInput>
+      </View>
+      <View style={style.eachInputContainer}>
+        <Text style={style.label}>Enter Phone Number:</Text>
+        <TextInput
+          value={phone}
+          style={style.inputContainer}
+          onChangeText={(text) => setPhone(text)}
+          placeholder="Phone Number:"
         ></TextInput>
       </View>
       <View style={style.buttonContainer}>

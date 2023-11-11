@@ -8,16 +8,21 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 const ViewPatient = ({ route, navigation }) => {
+  const { id } = route.params;
+
   const [patientData, setPatientData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const navigateToAddMedicalRecord = () => {
-    navigation.navigate("Add Medical Record");
+    navigation.navigate("Add Medical Record", {
+      patientId: id,
+    });
   };
-  const navigateToViewMedicalRecord = () => {
-    navigation.navigate("View Medical Record");
+  const navigateToViewMedicalRecord = (id) => {
+    navigation.navigate("View Medical Record", {
+      medicalId: id,
+    });
   };
 
-  const { id } = route.params;
   useEffect(() => {
     getSinglePatient(id);
   }, []);
@@ -26,7 +31,10 @@ const ViewPatient = ({ route, navigation }) => {
       method: "GET",
     })
       .then((response) => response.json())
-      .then((json) => setPatientData(json))
+      .then((json) => {
+        console.log(json.records.map);
+        setPatientData(json);
+      })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   };
@@ -73,20 +81,17 @@ const ViewPatient = ({ route, navigation }) => {
           </TouchableOpacity>
         </View>
         {/* <Text>There are no records yet.</Text> */}
-        <TouchableOpacity
-          style={styles.eachRecord}
-          onPress={navigateToViewMedicalRecord}
-        >
-          <Text style={styles.eachRecordName}>Record 1</Text>
-          <Text>09/10/2023</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.eachRecord}
-          onPress={navigateToViewMedicalRecord}
-        >
-          <Text style={styles.eachRecordName}>Record 1</Text>
-          <Text>09/10/2023</Text>
-        </TouchableOpacity>
+        {patientData.records &&
+          patientData.records.map((item, id) => (
+            <TouchableOpacity
+              key={id}
+              style={styles.eachRecord}
+              onPress={() => navigateToViewMedicalRecord(item._id)}
+            >
+              <Text style={styles.eachRecordName}>{item.recordTitle}</Text>
+              <Text>{item.date}</Text>
+            </TouchableOpacity>
+          ))}
       </View>
     </View>
   );

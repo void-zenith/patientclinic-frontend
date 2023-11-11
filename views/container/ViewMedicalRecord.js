@@ -1,41 +1,84 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 
-const ViewMedicalRecord = () => {
+const ViewMedicalRecord = ({ route, navigation }) => {
+  const { medicalId } = route.params;
+
+  const [medicalRecord, setmedicalRecord] = useState({});
+  const [isLoading, setLoading] = useState(true);
+  useEffect(() => {
+    getMedicalRecord(medicalId);
+  }, []);
+  const getMedicalRecord = (id) => {
+    fetch(`http://127.0.0.1:3000/record/${id}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        setmedicalRecord(json);
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  };
+  const deleteMedicalRecord = () => {
+    fetch(`http://127.0.0.1:3000/record/${medicalId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          navigation.navigate("Home");
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+  console.log(medicalRecord);
   return (
     <View style={styles.viewMedicalContainer}>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Date:</Text>
-        <Text>
-          {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
-        </Text>
-      </View>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Record Title:</Text>
-        <Text style={styles.recordLabel}>This is Record 1</Text>
-      </View>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Blood Pressure (X/Y mmHg):</Text>
-        <Text style={styles.recordLabel}>80/120 mmHg</Text>
-      </View>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Respiratory Rate (X/min):</Text>
-        <Text style={styles.recordLabel}>80/min</Text>
-      </View>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Blood Oxygen Level (X%):</Text>
-        <Text style={styles.recordLabel}>80%</Text>
-      </View>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Heartbeat Rate (X/min):</Text>
-        <Text style={styles.recordLabel}>80/min</Text>
-      </View>
-      <View style={styles.eachMedical}>
-        <Text style={styles.label}>Record Summary:</Text>
-        <Text style={styles.recordLabel}>
-          Patient was fine. He had a bit good taste.
-        </Text>
-      </View>
+      {isLoading ? (
+        <ActivityIndicator></ActivityIndicator>
+      ) : (
+        <>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Date:</Text>
+            <Text>{medicalRecord.date}</Text>
+          </View>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Record Title:</Text>
+            <Text style={styles.recordLabel}>{medicalRecord.recordTitle}</Text>
+          </View>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Blood Pressure (X/Y mmHg):</Text>
+            <Text style={styles.recordLabel}>
+              {medicalRecord.systolicBloodPressure}/
+              {medicalRecord.diastolicBloodPressure} mmHg
+            </Text>
+          </View>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Respiratory Rate (X/min):</Text>
+            <Text style={styles.recordLabel}>
+              {medicalRecord.respiratoryRate}/min
+            </Text>
+          </View>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Blood Oxygen Level (X%):</Text>
+            <Text style={styles.recordLabel}>
+              {medicalRecord.bloodOxygenLevel}%
+            </Text>
+          </View>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Heartbeat Rate (X/min):</Text>
+            <Text style={styles.recordLabel}>
+              {medicalRecord.heartbeatRate}/min
+            </Text>
+          </View>
+          <View style={styles.eachMedical}>
+            <Text style={styles.label}>Record Summary:</Text>
+            <Text style={styles.recordLabel}>
+              {medicalRecord.recordSummary}
+            </Text>
+          </View>
+        </>
+      )}
     </View>
   );
 };

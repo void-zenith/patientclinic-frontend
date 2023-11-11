@@ -23,8 +23,12 @@ const ViewAllPatient = ({ navigation }) => {
           <ActivityIndicator></ActivityIndicator>
         ) : (
           <View style={styles.listContainer}>
-            {allPatient.map((item) => (
-              <ListPatient data={item} navigation={navigation}></ListPatient>
+            {allPatient.map((item, id) => (
+              <ListPatient
+                key={id}
+                data={item}
+                navigation={navigation}
+              ></ListPatient>
             ))}
           </View>
         )}
