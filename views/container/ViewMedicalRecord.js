@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
-
+import ButtonComponent from "../components/ButtonComponent";
 const ViewMedicalRecord = ({ route, navigation }) => {
   const { medicalId } = route.params;
 
@@ -31,7 +31,6 @@ const ViewMedicalRecord = ({ route, navigation }) => {
       })
       .catch((error) => console.error(error));
   };
-  console.log(medicalRecord);
   return (
     <View style={styles.viewMedicalContainer}>
       {isLoading ? (
@@ -77,6 +76,11 @@ const ViewMedicalRecord = ({ route, navigation }) => {
               {medicalRecord.recordSummary}
             </Text>
           </View>
+          <ButtonComponent
+            label="Delete Record"
+            color="primary"
+            onPressHandler={deleteMedicalRecord}
+          ></ButtonComponent>
         </>
       )}
     </View>

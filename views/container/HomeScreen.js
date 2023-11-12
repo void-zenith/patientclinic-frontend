@@ -25,12 +25,13 @@ const HomeScreen = ({ navigation }) => {
     getCriticalPatient();
   }, []);
   const getPatientData = () => {
-    fetch("http://127.0.0.1:3000/home-data", {
+    fetch("http://127.0.0.1:3000/patient", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
+        setNormalPatient(json);
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
@@ -73,9 +74,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.summaryContainer}>
             <View style={styles.eachSummary}>
               <Text>Total Patient</Text>
-              <Text style={styles.summaryValue}>
-                {normalPatient.length + criticalPatient.length}
-              </Text>
+              <Text style={styles.summaryValue}>{normalPatient.length}</Text>
               <TouchableOpacity
                 style={styles.summaryBtn}
                 onPress={navigateToAllPatient}
@@ -107,9 +106,10 @@ const HomeScreen = ({ navigation }) => {
               <ActivityIndicator></ActivityIndicator>
             ) : (
               <View style={styles.listContainer}>
-                {criticalPatient.map((item) => (
+                {criticalPatient.map((item, id) => (
                   <ListPatient
                     data={item}
+                    key={id}
                     navigation={navigation}
                   ></ListPatient>
                 ))}
@@ -127,6 +127,9 @@ const HomeScreen = ({ navigation }) => {
           </View>
           <View>
             <Text style={styles.secondHeadLine}>List of All Patients</Text>
+            <Text style={{ fontSize: 16 }}>
+              {normalPatient.length === 0 && "There are no patients yet."}
+            </Text>
             <View style={styles.listContainer}>
               {isLoading ? (
                 <ActivityIndicator></ActivityIndicator>

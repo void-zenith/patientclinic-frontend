@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import ButtonComponent from "../components/ButtonComponent";
 import Toast from "react-native-toast-message";
-const AddMedicalRecord = ({ route }) => {
+const AddMedicalRecord = ({ route, navigation }) => {
   const { patientId } = route.params;
 
   const date = `${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}`;
@@ -39,7 +39,7 @@ const AddMedicalRecord = ({ route }) => {
       }),
     })
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           navigation.goBack();
           Toast.show({
             type: "success",
