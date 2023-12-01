@@ -12,6 +12,9 @@ import ViewPatient from "./views/container/ViewPatient";
 import AddMedicalRecord from "./views/container/AddMedicalRecord";
 import ViewMedicalRecord from "./views/container/ViewMedicalRecord";
 import ViewAllPatient from "./views/container/ViewAllPatient";
+import AdminHome from "./views/container/AdminHome";
+import ViewUser from "./views/container/ViewUser";
+import AddUser from "./views/container/AddUser";
 const AppNavigator = () => {
   const Stack = createStackNavigator();
 
@@ -19,7 +22,7 @@ const AppNavigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Back"
+          name="Splash"
           component={SplashScreen}
           options={{
             headerShown: false,
@@ -29,6 +32,7 @@ const AppNavigator = () => {
           name="Login"
           component={Login}
           options={{
+            headerBackTitle: "Back",
             headerTitle: () => <Text>Login as User</Text>,
           }}
         />
@@ -39,6 +43,14 @@ const AppNavigator = () => {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="Admin"
+          component={AdminHome}
+          options={{
+            headerShown: false,
+          }}
+        />
+
         <Stack.Screen
           name="Add Patient"
           component={AddPatient}
@@ -82,7 +94,24 @@ const AppNavigator = () => {
           name="Login Admin"
           component={LoginAdmin}
           options={{
+            headerBackTitle: "Back",
             headerTitle: () => <Text>Login as Admin</Text>,
+          }}
+        />
+        <Stack.Screen
+          name="View User"
+          component={ViewUser}
+          options={{
+            headerBackTitle: "Back",
+            headerTitle: () => <Text>View User</Text>,
+          }}
+        />
+        <Stack.Screen
+          name="Add User"
+          component={AddUser}
+          options={{
+            headerBackTitle: "Back",
+            headerTitle: () => <Text>Add User</Text>,
           }}
         />
       </Stack.Navigator>

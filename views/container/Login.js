@@ -22,6 +22,22 @@ const Login = ({ navigation }) => {
   };
   const onSubmitBtn = () => {
     navigation.navigate("Home");
+    // fetch("http://127.0.0.1:3000/login", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     username: userName.toLowerCase(),
+    //     password: password.toLowerCase(),
+    //   }),
+    // })
+    //   .then((res) => {
+    //     console.log(res);
+    //     if (res.status === 200) {
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //     throw error;
+    //   });
   };
   return (
     <View style={styles.loginContainer}>

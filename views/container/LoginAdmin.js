@@ -21,7 +21,7 @@ const LoginAdmin = ({ navigation }) => {
     setPassword(text);
   };
   const onSubmitBtn = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Admin");
   };
   return (
     <View style={styles.loginContainer}>

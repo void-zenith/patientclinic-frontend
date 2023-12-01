@@ -13,6 +13,7 @@ import Logout from "react-native-vector-icons/MaterialIcons";
 import ButtonComponent from "../components/ButtonComponent";
 import ListPatient from "../components/ListPatient";
 const HomeScreen = ({ navigation }) => {
+  const limit = 0;
   const [normalPatient, setNormalPatient] = useState([]);
   const [criticalPatient, setCriticalPatient] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
     getCriticalPatient();
   }, []);
   const getPatientData = () => {
-    fetch("http://127.0.0.1:3000/patient", {
+    fetch(`http://127.0.0.1:3000/patient?limit=${limit}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -38,7 +39,7 @@ const HomeScreen = ({ navigation }) => {
   };
 
   const getCriticalPatient = () => {
-    fetch("http://127.0.0.1:3000/critical-patient", {
+    fetch(`http://127.0.0.1:3000/critical-patient?limit=${limit}`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -51,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
     getCriticalPatient();
   };
   const logout = () => {
-    navigation.navigate("Back");
+    navigation.navigate("Splash");
   };
   const navigateToAllPatient = () => {
     navigation.navigate("View All Patient");
